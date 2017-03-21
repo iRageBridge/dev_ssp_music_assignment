@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 New Track
+  p Create a new track
+  form(method="POST" action="/admin/newSound" )
+    div.input
+      span.label Track Name:
+      input(type="text", name="trackName")
+    div.input
+      span.label Track URL:
+      input(type="text", name="trackURL")
+    div.actions
+      input(type="submit", value="Enter")

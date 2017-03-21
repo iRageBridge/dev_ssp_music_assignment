@@ -4,4 +4,5 @@ block content
   h1 PLAYLISTS
   a(href='/admin/newPlaylist') Create a new Playlist
   for playlist, i in playlists 
-    a(href='/admin/playlist') #{playlist.name}
+    p
+      a(href='/admin/playlist') #{playlist.name}

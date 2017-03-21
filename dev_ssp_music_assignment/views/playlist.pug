@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1 A playlist (will change name)
+  a(href='/admin/newSound') Add track to playlist
+  for track, i in tracks 
+    p
+        a(href='/admin/player') #{track.name}
