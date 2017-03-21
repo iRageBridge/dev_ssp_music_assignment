@@ -3,10 +3,6 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
-router.get('/admin', function(req, res, next) {
-  res.render('playlists');
-});
-
 var databaseInfo={
   host : 'eu-cdbr-azure-west-d.cloudapp.net',
   user : 'bacd6a460a6a72',
@@ -66,5 +62,4 @@ router.post('/login', function(req,res,next){
     }
   });
 });
-
 module.exports = router;

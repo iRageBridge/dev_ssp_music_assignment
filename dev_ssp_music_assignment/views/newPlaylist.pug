@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 New Playlist
+  p Create a new playlist
+  form(method="POST" action="/admin/newPlaylist" )
+    div.input
+      span.label Playlist Name:
+      input(type="text", name="playlistName")
+    div.actions
+      input(type="submit", value="Enter")
