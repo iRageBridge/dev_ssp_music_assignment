@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 Login
+  p Welcome to My Music Sharing App
+  form(method="POST" action="/login" )
+    div.input
+      span.label Username:
+      input(type="text", name="username")
+    div.input
+      span.label Password:
+      input(type="Password", name="password")
+    div.actions
+      input(type="submit", value="Enter")
+    div.actions
+      input(type="submit", value="Register" action='/register')
