@@ -64,7 +64,7 @@ router.post('/newPlaylist', function(req,res,next){
       throw err;
     }
 
-    playlist.id = results.inserdId;
+    playlist.id = results.insertId;
 
     dbConnection.end();
     res.redirect('/admin');

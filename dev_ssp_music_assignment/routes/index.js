@@ -14,6 +14,33 @@ router.get('/login',function(req,res,next){
   res.render('login');
 });
 
+router.post('/login', function(req,res,next){
+  var dbConnection = mysql.createConnection(databaseInfo);
+  dbConnection.connect();
+
+  dbConnection.on('error', function(err) {
+    if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
+      console.log('Got a DB PROTOCOL_SEQUENCE_TIMEOUT Error ... ignoring ');
+    }
+    else{
+      console.log('Got a DB Error: ', err);
+    }
+  });
+
+  var username = req.body.username;
+  var password = req.body.password;
+  dbConnection.query('SELECT userPassword FROM USER WHERE userDisplayName=?',[username],function(err,results, fields) {
+    if(results.length == 0){
+      res.redirect('/register');
+    }
+    else if(password == results[0].userPassword){
+      req.session.username = username;
+      req.session.password = password;
+      res.redirect('/admin');
+    }
+  });
+});
+
 router.get('/register', function(req,res,next){
   res.render('register');
 });
@@ -35,31 +62,4 @@ router.post('/register', function(req,res,next){
   });
 });
 
-router.post('/login', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
-  dbConnection.connect();
-
-  dbConnection.on('error', function(err) {
-    if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
-      console.log('Got a DB PROTOCOL_SEQUENCE_TIMEOUT Error ... ignoring ');
-    }
-    else{
-      console.log('Got a DB Error: ', err);
-    }
-  });
-
-  var username = req.body.username;
-  var password = req.body.password;
-  dbConnection.query('SELECT userPassword FROM USER WHERE userDisplayName=?',[username],function(err,results, fields) {
-    if(results.length == 0){
-      res.redirect('/login');
-    }
-    else if(password == results[0].userPassword){
-      
-      req.session.username = username;
-      req.session.password = password;
-      res.redirect('/admin');
-    }
-  });
-});
 module.exports = router;
