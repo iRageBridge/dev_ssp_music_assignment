@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
     }
   });
 
-  dbConnection.query('SELECT * FROM playlists', function(err, results, fields){
+  dbConnection.query('SELECT * FROM playlists WHERE user_userId = ?',[req.session.userId], function(err, results, fields){
     if (err) {
       throw err;
     }

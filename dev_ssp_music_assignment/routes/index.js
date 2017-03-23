@@ -36,6 +36,7 @@ router.post('/login', function(req,res,next){
     else if(password == results[0].userPassword){
       req.session.username = username;
       req.session.password = password;
+      req.session.userId = results.userId;
       res.redirect('/admin');
     }
   });
