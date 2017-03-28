@@ -10,12 +10,20 @@ var databaseInfo={
   database : 'joke_db_simon'
 };
 
+var localDbInfo = {
+  connectionLimit : 3,
+  host : 'localhost',
+  user : 'root',
+  password : '',
+  database : 'musicSharing'
+};
+
 router.get('/login',function(req,res,next){
   res.render('login');
 });
 
 router.post('/login', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
 
   dbConnection.on('error', function(err) {
@@ -26,17 +34,19 @@ router.post('/login', function(req,res,next){
       console.log('Got a DB Error: ', err);
     }
   });
-
+  
   var username = req.body.username;
   var password = req.body.password;
-  dbConnection.query('SELECT userPassword FROM USER WHERE userDisplayName=?',[username],function(err,results, fields) {
+  dbConnection.query('SELECT userPassword,userId FROM USERS WHERE userDisplayName=?',[username],function(err,results, fields) {
+    
     if(results.length == 0){
       res.redirect('/register');
     }
     else if(password == results[0].userPassword){
       req.session.username = username;
       req.session.password = password;
-      req.session.userId = results.userId;
+      req.session.userId = results[0].userId;
+      
       res.redirect('/admin');
     }
   });
@@ -47,7 +57,7 @@ router.get('/register', function(req,res,next){
 });
 
 router.post('/register', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
 
   dbConnection.on('error', function(err) {
@@ -58,7 +68,7 @@ router.post('/register', function(req,res,next){
       console.log('Got a DB Error: ', err);
     }
   });
-  dbConnection.query('INSERT INTO user (userDisplayName, userPassword) VALUES(?,?)',[req.body.username, req.body.password], function(err,results,fields){
+  dbConnection.query('INSERT INTO users (userDisplayName, userPassword) VALUES(?,?)',[req.body.username, req.body.password], function(err,results,fields){
     res.redirect('/login');
   });
 });

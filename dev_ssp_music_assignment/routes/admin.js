@@ -10,8 +10,17 @@ var databaseInfo={
   database : 'joke_db_simon'
 };
 
+var localDbInfo = {
+  connectionLimit : 3,
+  host : 'localhost',
+  user : 'root',
+  password : '',
+  database : 'musicSharing'
+};
+
 router.get('/', function(req, res, next) {
-  var dbConnection = mysql.createConnection(databaseInfo);
+  console.log(req.session.userId);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -22,7 +31,7 @@ router.get('/', function(req, res, next) {
     }
   });
 
-  dbConnection.query('SELECT * FROM playlists WHERE user_userId = ?',[req.session.userId], function(err, results, fields){
+  dbConnection.query('SELECT * FROM playlists WHERE userId = ?',[req.session.userId], function(err, results, fields){
     if (err) {
       throw err;
     }
@@ -46,7 +55,7 @@ router.get('/newPlaylist', function(req,res,next){
 });
 
 router.post('/newPlaylist', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -59,7 +68,7 @@ router.post('/newPlaylist', function(req,res,next){
   var playlist={};
   playlist.name=req.body.playlistName;
 
-  dbConnection.query('INSERT INTO playlists (playlistName) VALUES(?)',[playlist.name],function(err,results,fields){
+  dbConnection.query('INSERT INTO playlists (playlistName,userId) VALUES(?,?)',[playlist.name,req.session.userId],function(err,results,fields){
     if(err){
       throw err;
     }
@@ -72,7 +81,7 @@ router.post('/newPlaylist', function(req,res,next){
 });
 
 router.get('/playlist',function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -111,7 +120,7 @@ router.get('/newSound', function(req,res,next){
 });
 
 router.post('/newSound',function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
