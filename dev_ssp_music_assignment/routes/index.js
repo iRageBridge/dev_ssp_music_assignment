@@ -37,7 +37,7 @@ router.post('/login', function(req,res,next){
   
   var username = req.body.username;
   var password = req.body.password;
-  dbConnection.query('SELECT userPassword,userId FROM USERS WHERE userDisplayName=?',[username],function(err,results, fields) {
+  dbConnection.query('SELECT userPassword,userId FROM users WHERE userDisplayName=?',[username],function(err,results, fields) {
     
     if(results.length == 0){
       res.redirect('/register');

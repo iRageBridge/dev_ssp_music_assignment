@@ -19,7 +19,7 @@ var localDbInfo = {
 };
 
 router.get('/', function(req, res, next) {
-  console.log(req.session.userId);
+  //console.log(req.session.userId);
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
@@ -42,7 +42,6 @@ router.get('/', function(req, res, next) {
       playlist.id = results[i].playlistId;
       playlist.name = results[i].playlistName;
       playlist.userId = results[i].user_userId;
-
       allPlaylists.push(playlist);
     }
     dbConnection.end();
@@ -54,7 +53,7 @@ router.get('/newPlaylist', function(req,res,next){
   res.render('newPlaylist');
 });
 
-router.post('/newPlaylist', function(req,res,next){
+router.post('/newPlaylist', function(req,res,next){ 
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
@@ -80,7 +79,9 @@ router.post('/newPlaylist', function(req,res,next){
   });
 });
 
-router.get('/playlist',function(req,res,next){
+router.get('/playlist/:id',function(req,res,next){
+  req.session.currentPlaylist = req.params.id;
+  console.log(req.session.currentPlaylist);
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
@@ -92,18 +93,17 @@ router.get('/playlist',function(req,res,next){
     }
   });
 
-  dbConnection.query('SELECT * FROM tracks', function(err, results, fields){
+  dbConnection.query('SELECT * FROM tracks WHERE playlistId= ?',[req.session.currentPlaylist], function(err, results, fields){
     if (err) {
       throw err;
     }
-
+    console.log("Results" + results);
     var allTracks = new Array();
     for(var i=0; i<results.length; i++){
       var track={};
       track.id = results[i].trackId;
       track.name = results[i].trackName;
       track.url = results[i].trackURL;
-
       allTracks.push(track);
     }
     dbConnection.end();
@@ -131,7 +131,7 @@ router.post('/newSound',function(req,res,next){
   });
 
   var track={};
-  track.name=req.body.trackName;
+  track.name = req.body.trackName;
   track.url = req.body.trackURL;
 
   dbConnection.query('INSERT INTO tracks (trackName,trackURL) VALUES(?,?)',[track.name,track.url],function(err,results,fields){
@@ -139,10 +139,10 @@ router.post('/newSound',function(req,res,next){
       throw err;
     }
 
-    track.id = results.inserdId;
+    track.id = results.insertId;
 
     dbConnection.end();
-    res.redirect('/playlist');
+    res.redirect('/admin');
   });
 });
 

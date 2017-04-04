@@ -20,9 +20,7 @@ CREATE TABLE tracks(
   trackId INT PRIMARY KEY AUTO_INCREMENT,
   trackName VARCHAR(45) NOT NULL,
   trackURL VARCHAR(200) NOT NULL,
-  playlistId INT NOT NULL,
-  FOREIGN KEY fk_playlist(playlistId)
+  playlistId INT,
+  FOREIGN KEY (playlistId)
   REFERENCES playlists(playlistId)
 );
-
-INSERT INTO users (userDisplayName, userPassword) VALUES ('simon','simon');
