@@ -24,3 +24,4 @@ CREATE TABLE tracks(
   FOREIGN KEY (playlistId)
   REFERENCES playlists(playlistId)
 );
+select * from tracks;

@@ -134,7 +134,7 @@ router.post('/newSound',function(req,res,next){
   track.name = req.body.trackName;
   track.url = req.body.trackURL;
 
-  dbConnection.query('INSERT INTO tracks (trackName,trackURL) VALUES(?,?)',[track.name,track.url],function(err,results,fields){
+  dbConnection.query('INSERT INTO tracks (trackName,trackURL,playlistId) VALUES(?,?,?)',[track.name,track.url,req.session.currentPlaylist],function(err,results,fields){
     if(err){
       throw err;
     }
