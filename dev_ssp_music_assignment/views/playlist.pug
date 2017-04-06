@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  h1 A playlist (will change name)
+  h1 Playlist
   a(href='/admin/newSound') Add track to playlist
   for track, i in tracks 
     p
-        a(href='/admin/player') #{track.name}
+        iframe(src='https://w.soundcloud.com/player/?url=' + track.url + '&auto_play=false&buying=false&liking=false&download=false&sharing=false&show_artwork=false&show_comments=false&show_playcount=false&hide_related=false&visual=true&start_track=0&callback=true' width='20%' height='120' scrolling='no' frameborder='no')    
     p
-        iframe(allowtransparency="true" scrolling="no" frameborder="no" src="https://w.soundcloud.com/icon/?url=http%3A%2F%2Fsoundcloud.com%2F%2Fkodak-black%2Ftunnel-vision-1&color=orange_white&size=32" style="width: 32px; height: 32px;")
+        a(href='/admin/playlist/delete/'+track.id) Delete

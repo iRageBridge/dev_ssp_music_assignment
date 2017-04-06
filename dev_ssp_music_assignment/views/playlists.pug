@@ -6,3 +6,5 @@ block content
   for playlist, i in playlists 
     p
       a(href='/admin/playlist/'+playlist.id) #{playlist.name}
+    p
+      a(href='/admin/delete/'+playlist.id) Delete

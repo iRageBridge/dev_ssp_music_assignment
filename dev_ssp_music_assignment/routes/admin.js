@@ -81,7 +81,6 @@ router.post('/newPlaylist', function(req,res,next){
 
 router.get('/playlist/:id',function(req,res,next){
   req.session.currentPlaylist = req.params.id;
-  console.log(req.session.currentPlaylist);
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
@@ -97,22 +96,19 @@ router.get('/playlist/:id',function(req,res,next){
     if (err) {
       throw err;
     }
-    console.log("Results" + results);
     var allTracks = new Array();
     for(var i=0; i<results.length; i++){
       var track={};
       track.id = results[i].trackId;
       track.name = results[i].trackName;
       track.url = results[i].trackURL;
+      track.url = track.url.replace("<iframe ", "");
+      track.url = track.url.replace("></iframe>", "");
       allTracks.push(track);
     }
     dbConnection.end();
     res.render('playlist',{tracks: allTracks});
   });
-});
-
-router.post('/playlist', function(req,res,next){
-    
 });
 
 router.get('/newSound', function(req,res,next){
@@ -142,8 +138,57 @@ router.post('/newSound',function(req,res,next){
     track.id = results.insertId;
 
     dbConnection.end();
-    res.redirect('/admin');
+    res.redirect('/playlist/:id');
   });
+});
+
+router.get('/delete/:id', function(req, res, next) {
+  if (req.params.id) {
+    var dbConnection = mysql.createConnection(localDbInfo);
+    dbConnection.connect();
+    dbConnection.on('error', function(err) {
+      if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
+        console.log('Got a DB PROTOCOL_SEQUENCE_TIMEOUT Error ... ignoring ');
+      } 
+      else {
+        console.log('Got a DB Error: ', err);
+      }
+    });
+
+    dbConnection.query('DELETE FROM playlists WHERE playlistId=?',[req.params.id], function(err,results, fields) {
+      if (err) {
+        console.log("Error deleting playlist");
+        throw err;
+      }
+       dbConnection.end();
+       res.redirect('/admin');
+    });
+  }
+});
+
+router.get('/playlist/delete/:id', function(req, res, next) {
+  console.log(req.params.id)
+  if (req.params.id) {
+    var dbConnection = mysql.createConnection(localDbInfo);
+    dbConnection.connect();
+    dbConnection.on('error', function(err) {
+      if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
+        console.log('Got a DB PROTOCOL_SEQUENCE_TIMEOUT Error ... ignoring ');
+      } 
+      else{
+        console.log('Got a DB Error: ', err);
+      }
+    });
+
+    dbConnection.query('DELETE FROM tracks WHERE trackId=?',[req.params.id], function(err,results, fields) {
+      if (err) {
+        console.log("Error deleting song");
+        throw err;
+      }
+       dbConnection.end();
+       res.redirect('/admin/playlist/'+req.params.id);
+    });
+  }
 });
 
 module.exports = router;

@@ -19,9 +19,11 @@ CREATE TABLE playlists(
 CREATE TABLE tracks(
   trackId INT PRIMARY KEY AUTO_INCREMENT,
   trackName VARCHAR(45) NOT NULL,
-  trackURL VARCHAR(200) NOT NULL,
+  trackURL VARCHAR(500) NOT NULL,
   playlistId INT,
   FOREIGN KEY (playlistId)
   REFERENCES playlists(playlistId)
 );
+
+drop table tracks;
 select * from tracks;
