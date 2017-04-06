@@ -25,5 +25,7 @@ CREATE TABLE tracks(
   REFERENCES playlists(playlistId)
 );
 
-drop table tracks;
+drop table users;
 select * from tracks;
+select * from users;
+select * from playlists;

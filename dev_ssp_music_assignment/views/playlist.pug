@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  p
+    a(href='/admin') Back 
   h1 Playlist
   a(href='/admin/newSound') Add track to playlist
   for track, i in tracks 
