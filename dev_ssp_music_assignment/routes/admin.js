@@ -138,7 +138,7 @@ router.post('/newSound',function(req,res,next){
     track.id = results.insertId;
 
     dbConnection.end();
-    res.redirect('/playlist/:id');
+    res.redirect('/admin');
   });
 });
 
@@ -186,7 +186,7 @@ router.get('/playlist/delete/:id', function(req, res, next) {
         throw err;
       }
        dbConnection.end();
-       res.redirect('/admin/playlist/'+req.params.id);
+       res.redirect('/admin');
     });
   }
 });

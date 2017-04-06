@@ -73,4 +73,9 @@ router.post('/register', function(req,res,next){
   });
 });
 
+router.get('/logout',function(req,res,next){
+  req.session.destroy();
+  res.redirect('/admin');
+});
+
 module.exports = router;
