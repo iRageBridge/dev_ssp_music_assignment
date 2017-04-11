@@ -19,7 +19,6 @@ var localDbInfo = {
 };
 
 router.get('/', function(req, res, next) {
-  //console.log(req.session.userId);
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {

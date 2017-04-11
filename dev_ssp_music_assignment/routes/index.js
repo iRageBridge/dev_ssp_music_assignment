@@ -17,6 +17,9 @@ var localDbInfo = {
   password : '',
   database : 'musicSharing'
 };
+router.get('/',function(req,res,next){
+  res.redirect('/admin');
+});
 
 router.get('/login',function(req,res,next){
   res.render('login');
