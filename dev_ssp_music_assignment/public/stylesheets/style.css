@@ -10,6 +10,11 @@ body {
   color: #ff0000;
 }
 
+hr{
+  width: 33%;
+  float: left;
+}
+
 h1{
   color: #ffffff;
 }

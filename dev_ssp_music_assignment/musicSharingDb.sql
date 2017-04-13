@@ -24,10 +24,11 @@ CREATE TABLE tracks(
   FOREIGN KEY (playlistId)
   REFERENCES playlists(playlistId)
 );
+
 drop table tracks;
 drop table users;
 drop table playlists;
+
 select * from tracks;
 select * from users;
 select * from playlists;
-select userDisplayName from users;

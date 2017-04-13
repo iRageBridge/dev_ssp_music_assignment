@@ -45,9 +45,8 @@ router.post('/login', function(req,res,next){
   var username = req.body.username;
   var password = req.body.password;
   dbConnection.query('SELECT userPassword,userId FROM users WHERE userDisplayName=?',[username],function(err,results, fields) {
-    
     if(results.length == 0){
-      req.session.userMessage = "User not registered";
+      req.session.userMessage = "User " + username + " not registered";
       res.redirect('/login');
     }
     else if(results.length !=0 && (password != results[0].userPassword)){
@@ -63,7 +62,8 @@ router.post('/login', function(req,res,next){
       res.redirect('/admin');
     }
     else{
-      req.session.userMessage = username + " is not registered username";
+      req.session.userMessage = username + " is not a registered username";
+      res.redirect('/login');
     }
   });
 });
@@ -85,6 +85,7 @@ router.post('/register', function(req,res,next){
     if(results.length == 0){
       dbConnection.query('INSERT INTO users (userDisplayName, userPassword) VALUES(?,?)',[req.body.username, req.body.password], function(err,results,fields){
         if((req.body.username != '') && (req.body.password != '')){
+          req.session.userId = results.insertId;
           req.session.username=req.body.username;
           res.redirect('/admin');
         }
@@ -95,7 +96,7 @@ router.post('/register', function(req,res,next){
       });
     }
     else{
-      req.session.registerMessage = "Username already exists";
+      req.session.registerMessage = "Username " + req.body.username + " already exists";
       res.redirect('/login');
     }
   });
