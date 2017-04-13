@@ -13,5 +13,8 @@
     "morgan": "~1.7.0",
     "pug": "~2.0.0-beta10",
     "serve-favicon": "~2.3.2"
+  },
+  "engines": {
+    "node": "6.9.4"
   }
 }
