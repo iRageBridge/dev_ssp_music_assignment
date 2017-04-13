@@ -22,7 +22,11 @@ router.get('/',function(req,res,next){
 });
 
 router.get('/login',function(req,res,next){
-  res.render('login');
+  var userMessage = req.session.userMessage ? req.session.userMessage : "";
+  req.session.userMessage = "";
+  var registerMessage = req.session.registerMessage ? req.session.registerMessage : "";
+  req.session.registerMessage = "";
+  res.render('login', {msg: userMessage, regmsg: registerMessage});
 });
 
 router.post('/login', function(req,res,next){
@@ -43,8 +47,14 @@ router.post('/login', function(req,res,next){
   dbConnection.query('SELECT userPassword,userId FROM users WHERE userDisplayName=?',[username],function(err,results, fields) {
     
     if(results.length == 0){
-      res.redirect('/register');
+      req.session.userMessage = "User not registered";
+      res.redirect('/login');
     }
+    else if(results.length !=0 && (password != results[0].userPassword)){
+      req.session.userMessage = "Incorrect Password";
+      res.redirect('/login');
+    }
+  
     else if(password == results[0].userPassword){
       req.session.username = username;
       req.session.password = password;
@@ -52,11 +62,10 @@ router.post('/login', function(req,res,next){
       
       res.redirect('/admin');
     }
+    else{
+      req.session.userMessage = username + " is not registered username";
+    }
   });
-});
-
-router.get('/register', function(req,res,next){
-  res.render('register');
 });
 
 router.post('/register', function(req,res,next){
@@ -71,8 +80,24 @@ router.post('/register', function(req,res,next){
       console.log('Got a DB Error: ', err);
     }
   });
-  dbConnection.query('INSERT INTO users (userDisplayName, userPassword) VALUES(?,?)',[req.body.username, req.body.password], function(err,results,fields){
-    res.redirect('/login');
+
+  dbConnection.query('SELECT * FROM users WHERE userDisplayName = ?', [req.body.username],function(err,results, fields) {  
+    if(results.length == 0){
+      dbConnection.query('INSERT INTO users (userDisplayName, userPassword) VALUES(?,?)',[req.body.username, req.body.password], function(err,results,fields){
+        if((req.body.username != '') && (req.body.password != '')){
+          req.session.username=req.body.username;
+          res.redirect('/admin');
+        }
+        else{
+          req.session.registerMessage = "An unexpected error occured, please try again"
+          res.redirect('/login');
+        }
+      });
+    }
+    else{
+      req.session.registerMessage = "Username already exists";
+      res.redirect('/login');
+    }
   });
 });
 

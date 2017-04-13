@@ -1,14 +1,21 @@
 extends layout
 
 block content
-  p
-    a(href='/admin') Back 
-  h1 Playlist
-  a(href='/admin/newSound') Add track to playlist
+  a(href='/admin')
+    button(type='button') Back 
+  a(href='/logout')
+    button(type='button') Logout
+  br
+  h1 #{user}'s Playlist
+  a(type='submit' href='/admin/newTrack') 
+    button(type='button') Add track to playlist
+    br
+    br
   for track, i in tracks 
-    p
-        iframe(src='https://w.soundcloud.com/player/?url=' + track.url + '&auto_play=false&buying=false&liking=false&download=false&sharing=false&show_artwork=false&show_comments=false&show_playcount=false&hide_related=false&visual=true&start_track=0&callback=true' width='20%' height='120' scrolling='no' frameborder='no')    
-    p
-        a(href='/admin/playlist/delete/'+track.id) Delete
-  p
-    a(href='/logout') Logout 
+    div(id='iframe')
+      p(id='trackName') #{track.name}
+      br
+      iframe(src='https://w.soundcloud.com/player/?url=' + track.url + '&auto_play=false&buying=false&liking=false&download=false&sharing=false&show_artwork=false&show_comments=false&show_playcount=false&hide_related=false&visual=true&start_track=0&callback=true' width='20%' height='120' scrolling='no' frameborder='no') 
+      p
+        a(type='submit' href='/admin/playlist/delete/'+track.id)     
+          button(type='button') Delete

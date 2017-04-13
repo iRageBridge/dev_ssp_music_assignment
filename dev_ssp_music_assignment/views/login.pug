@@ -3,14 +3,22 @@ extends layout
 block content
   h1 Login
   p Welcome to My Music Sharing App
+  p(id="message") #{msg}
   form(method="POST" action="/login" )
     div.input
-      span.label Username:
-      input(type="text", name="username")
+      input(type="text", name="username" placeholder="Username")
     div.input
-      span.label Password:
-      input(type="Password", name="password")
+      input(type="Password", name="password" placeholder="Password")
     div.actions
       input(type="submit", value="Enter")
+  hr
+  h1 Register
+  p New user? Register for My Music Sharing App!
+  p(id="message") #{regmsg}
+  form(method="POST" action="/register" )
+    div.input
+      input(type="text", name="username" placeholder="Username")
+    div.input
+      input(type="Password", name="password" placeholder="Password")
     div.actions
-      input(type="submit", value="Register" action='/register')
+      input(type="submit", value="Register")

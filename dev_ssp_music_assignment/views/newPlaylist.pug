@@ -1,13 +1,14 @@
 extends layout
 
 block content
+  a(href='/admin')
+    button(type='button') Back 
+  a(href='/logout')
+    button(type='button') Logout
   h1 New Playlist
   p Create a new playlist
   form(method="POST" action="/admin/newPlaylist" )
     div.input
-      span.label Playlist Name:
-      input(type="text", name="playlistName")
+      input(type="text", name="playlistName" placeholder="Playlist Name")
     div.actions
       input(type="submit", value="Enter")
-  p
-    a(href='/logout') Logout 

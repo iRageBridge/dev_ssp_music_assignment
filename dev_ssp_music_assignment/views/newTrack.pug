@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  a(href='/admin/playlist/'+playlistId)
+    button(type='button') Back 
+  a(href='/logout')
+    button(type='button') Logout
+  h1 New Track
+  p Create a new track
+  form(method="POST" action="/admin/newTrack" )
+    div.input
+      input(type="text", name="trackName" placeholder="Track Name")
+    div.input
+      input(type="text", name="trackURL" placeholder="Track URL")
+    div.actions
+      input(type="submit", value="Enter")

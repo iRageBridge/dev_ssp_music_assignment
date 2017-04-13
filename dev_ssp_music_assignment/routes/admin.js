@@ -44,7 +44,7 @@ router.get('/', function(req, res, next) {
       allPlaylists.push(playlist);
     }
     dbConnection.end();
-    res.render('playlists',{playlists: allPlaylists});
+    res.render('playlists',{playlists: allPlaylists, username: req.session.username});
   });
 });
 
@@ -106,15 +106,15 @@ router.get('/playlist/:id',function(req,res,next){
       allTracks.push(track);
     }
     dbConnection.end();
-    res.render('playlist',{tracks: allTracks});
+    res.render('playlist',{tracks: allTracks,user: req.session.username});
   });
 });
 
-router.get('/newSound', function(req,res,next){
-  res.render('newSound');
+router.get('/newTrack', function(req,res,next){
+  res.render('newTrack', {playlistId: req.session.currentPlaylist});
 });
 
-router.post('/newSound',function(req,res,next){
+router.post('/newTrack',function(req,res,next){
   var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
@@ -166,7 +166,6 @@ router.get('/delete/:id', function(req, res, next) {
 });
 
 router.get('/playlist/delete/:id', function(req, res, next) {
-  console.log(req.params.id)
   if (req.params.id) {
     var dbConnection = mysql.createConnection(localDbInfo);
     dbConnection.connect();

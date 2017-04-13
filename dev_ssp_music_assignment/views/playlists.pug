@@ -1,12 +1,20 @@
 extends layout
 
 block content
-  h1 PLAYLISTS
-  a(href='/admin/newPlaylist') Create a new Playlist
+  a(href='/logout')
+    button(type='button') Logout
+  h1 #{username}'s Playlists 
+  a(href='/admin/newPlaylist')
+    button(type='button') Create a new Playlist
+    br
+    br
   for playlist, i in playlists 
-    p
-      a(href='/admin/playlist/'+playlist.id) #{playlist.name}
-    p
-      a(href='/admin/delete/'+playlist.id) Delete
-  p
-    a(href='/logout') Logout 
+    div(id='playlistImage')
+      a(href='/admin/playlist/'+playlist.id)
+        img(src='images/playlistLogo.PNG')
+      p
+      br
+      p #{playlist.name}
+      p
+        a(href='/admin/delete/'+playlist.id)
+          button(type='button') Delete
