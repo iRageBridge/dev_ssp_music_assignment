@@ -19,7 +19,7 @@ var localDbInfo = {
 };
 
 router.get('/', function(req, res, next) {
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(z);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -53,7 +53,7 @@ router.get('/newPlaylist', function(req,res,next){
 });
 
 router.post('/newPlaylist', function(req,res,next){ 
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -80,7 +80,7 @@ router.post('/newPlaylist', function(req,res,next){
 
 router.get('/playlist/:id',function(req,res,next){
   req.session.currentPlaylist = req.params.id;
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -115,7 +115,7 @@ router.get('/newTrack', function(req,res,next){
 });
 
 router.post('/newTrack',function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
   dbConnection.on('error', function(err) {
     if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -143,7 +143,7 @@ router.post('/newTrack',function(req,res,next){
 
 router.get('/delete/:id', function(req, res, next) {
   if (req.params.id) {
-    var dbConnection = mysql.createConnection(databaseInfo);
+    var dbConnection = mysql.createConnection(localDbInfo);
     dbConnection.connect();
     dbConnection.on('error', function(err) {
       if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {
@@ -167,7 +167,7 @@ router.get('/delete/:id', function(req, res, next) {
 
 router.get('/playlist/delete/:id', function(req, res, next) {
   if (req.params.id) {
-    var dbConnection = mysql.createConnection(databaseInfo);
+    var dbConnection = mysql.createConnection(localDbInfo);
     dbConnection.connect();
     dbConnection.on('error', function(err) {
       if (err.code == 'PROTOCOL_SEQUENCE_TIMEOUT') {

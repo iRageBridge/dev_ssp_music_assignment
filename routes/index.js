@@ -30,7 +30,7 @@ router.get('/login',function(req,res,next){
 });
 
 router.post('/login', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
 
   dbConnection.on('error', function(err) {
@@ -69,7 +69,7 @@ router.post('/login', function(req,res,next){
 });
 
 router.post('/register', function(req,res,next){
-  var dbConnection = mysql.createConnection(databaseInfo);
+  var dbConnection = mysql.createConnection(localDbInfo);
   dbConnection.connect();
 
   dbConnection.on('error', function(err) {
