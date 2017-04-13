@@ -1,0 +1,7 @@
+{
+    "name": "Music sharing web app",
+    "Description": "Node js music sharing app with soundcloud",
+    "repository": "https://github.com/iRageBridge/dev_ssp_music_assignment",
+    "keywords": ["node", "javascript", "music", "sharing", "soundcloud"],
+    "image": "heroku/nodejs"
+}
