@@ -3,20 +3,20 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
-var databaseInfo={
-  host : 'eu-cdbr-azure-west-d.cloudapp.net',
-  user : 'bacd6a460a6a72',
-  password : '1989368d',
-  database : 'joke_db_simon'
+var localDbInfo={
+  host : 'sql11.freemysqlhosting.net',
+  user : 'sql11169317',
+  password : 'gDIKpwItWX',
+  database : 'sql11169317'
 };
 
-var localDbInfo = {
+/*var localDbInfo = {
   connectionLimit : 3,
   host : 'localhost',
   user : 'root',
   password : '',
   database : 'musicSharing'
-};
+};*/
 router.get('/',function(req,res,next){
   res.redirect('/admin');
 });
